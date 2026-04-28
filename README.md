@@ -48,20 +48,20 @@ Support teams manually triage thousands of tickets daily — a slow, inconsisten
 
 ## Architecture
 
-Raw Tweets (2.8M)
-↓
-Filter Inbound (1.5M customer messages)
-↓
-Clean Text (remove @mentions, URLs, punctuation)
-↓
-TF-IDF + K-Means → Label Engineering (6 categories)
-↓
-SMOTE → Baseline Models (Logistic Regression, Random Forest)
-↓
-Fine-tune BERT (bert-base-uncased, T4 GPU, 3 epochs)
-↓
-route_ticket() → Category + Confidence + Team + Priority + Escalation Flag
-↓
+Raw Tweets (2.8M) ---->
+
+Filter Inbound (1.5M customer messages) ---->
+
+Clean Text (remove @mentions, URLs, punctuation) ---->
+
+TF-IDF + K-Means → Label Engineering (6 categories) ---->
+
+SMOTE → Baseline Models (Logistic Regression, Random Forest) ---->
+
+Fine-tune BERT (bert-base-uncased, T4 GPU, 3 epochs) ---->
+
+route_ticket() → Category + Confidence + Team + Priority + Escalation Flag ---->
+
 SQLite Database → SQL Analysis → Tableau Dashboard
 
 ---
@@ -138,33 +138,3 @@ FROM routing_results;
 - Labels are self-engineered via clustering, not human-verified ground truth
 - Dataset covers October 2017 only — model may need retraining for other time periods
 - Future improvement: balanced resampling across categories before BERT fine-tuning
-
----
-
-## How to Run
-
-### 1. Setup
-```bash
-git clone https://github.com/YOUR_USERNAME/customer-support-classifier
-cd customer-support-classifier
-pip install -r requirements.txt
-```
-
-### 2. Download Dataset
-[Kaggle: Customer Support on Twitter](https://www.kaggle.com/datasets/thoughtvector/customer-support-on-twitter)
-Download `twcs.csv` → place in `data/raw/twcs.csv`
-
-### 3. Run Notebooks in Order
-| Notebook | Where to Run |
-|---|---|
-| 01_eda.ipynb | Local Jupyter |
-| 02_preprocessing.ipynb | Local Jupyter |
-| 03_baseline_model.ipynb | Local Jupyter |
-| 04_bert_classifier.ipynb | Google Colab (T4 GPU) |
-| 05_routing_engine.ipynb | Google Colab (T4 GPU) |
-
-### 4. SQL Analysis
-```bash
-sqlite3 data/support_tickets.db < sql/ticket_volume.sql
-sqlite3 data/support_tickets.db < sql/routing_metrics.sql
-```
