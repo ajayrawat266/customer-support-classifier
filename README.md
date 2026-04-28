@@ -48,21 +48,21 @@ Support teams manually triage thousands of tickets daily — a slow, inconsisten
 
 ## Architecture
 
-Raw Tweets (2.8M) ---->
+1. Raw Tweets (2.8M) 
 
-Filter Inbound (1.5M customer messages) ---->
+2. Filter Inbound (1.5M customer messages) 
 
-Clean Text (remove @mentions, URLs, punctuation) ---->
+3. Clean Text (remove @mentions, URLs, punctuation) 
 
-TF-IDF + K-Means → Label Engineering (6 categories) ---->
+4. TF-IDF + K-Means → Label Engineering (6 categories) 
 
-SMOTE → Baseline Models (Logistic Regression, Random Forest) ---->
+5. SMOTE → Baseline Models (Logistic Regression, Random Forest) 
 
-Fine-tune BERT (bert-base-uncased, T4 GPU, 3 epochs) ---->
+6. Fine-tune BERT (bert-base-uncased, T4 GPU, 3 epochs) 
 
-route_ticket() → Category + Confidence + Team + Priority + Escalation Flag ---->
+7. route_ticket() → Category + Confidence + Team + Priority + Escalation Flag 
 
-SQLite Database → SQL Analysis → Tableau Dashboard
+8. SQLite Database → SQL Analysis → Tableau Dashboard
 
 ---
 
